@@ -26,5 +26,9 @@
     "consola": "^3.2.3",
     "dayjs": "^1.11.11",
     "lodash": "^4.17.21"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:xuyaxiong/kl-ins.git"
   }
 }
