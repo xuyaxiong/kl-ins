@@ -14,12 +14,8 @@ export class SubAxisInstruction extends Instruction {
     this.fillingData();
   }
 
-  protected getPayloadLen(): number {
-    return 4;
-  }
-
-  protected _fillPayload() {
-    this._data.push(...InstructionTool.float32ToByteArr(this.cycle)); // 4字节
+  protected getPayload(): number[] {
+    return [...InstructionTool.float32ToByteArr(this.cycle)];
   }
 }
 
@@ -28,14 +24,12 @@ export class UnsubAxisInstruction extends Instruction {
   public static readonly MODULE_NUM = 3;
   public static readonly NUM = 3;
 
-  constructor() {
+  public constructor() {
     super();
     this.fillingData();
   }
 
-  protected getPayloadLen(): number {
-    return 0;
+  protected getPayload(): number[] {
+    return [];
   }
-
-  protected _fillPayload() {}
 }

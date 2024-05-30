@@ -9,17 +9,13 @@ export class EnumAxisInstruction extends Instruction {
   public static readonly MODULE_NUM = 1;
   public static readonly NUM = 1;
 
-  constructor() {
+  public constructor() {
     super();
     this.fillingData();
   }
 
-  protected getPayloadLen(): number {
-    return 1;
-  }
-
-  protected _fillPayload() {
-    this._data.push(this._sendNo); // 1字节
+  protected getPayload(): number[] {
+    return [this._sendNo];
   }
 }
 
@@ -37,15 +33,12 @@ export class HomeInstruction extends Instruction {
     this.fillingData();
   }
 
-  protected getPayloadLen(): number {
-    return 1 + this.axisList.length;
-  }
-
-  protected _fillPayload() {
-    this._data.push(this._sendNo); // 1字节
+  protected getPayload(): number[] {
+    const payload = [this._sendNo];
     for (const axis of this.axisList) {
-      this._data.push(axis);
+      payload.push(axis);
     }
+    return payload;
   }
 }
 
@@ -66,14 +59,12 @@ export class JogStartInstruction extends Instruction {
     this.fillingData();
   }
 
-  protected getPayloadLen(): number {
-    return 6;
-  }
-
-  protected _fillPayload() {
-    this._data.push(this.axisNum);
-    this._data.push(...InstructionTool.float32ToByteArr(this.speed));
-    this._data.push(this.direction);
+  protected getPayload(): number[] {
+    const payload = [];
+    payload.push(this.axisNum);
+    payload.push(...InstructionTool.float32ToByteArr(this.speed));
+    payload.push(this.direction);
+    return payload;
   }
 }
 
@@ -90,12 +81,8 @@ export class JogStopInstruction extends Instruction {
     this.fillingData();
   }
 
-  protected getPayloadLen(): number {
-    return 1;
-  }
-
-  protected _fillPayload() {
-    this._data.push(this.axisNum);
+  protected getPayload(): number[] {
+    return [this.axisNum];
   }
 }
 
@@ -113,18 +100,16 @@ export class MoveInstruction extends Instruction {
     this.fillingData();
   }
 
-  protected getPayloadLen(): number {
-    return 1 + this.moveItemInfoList.length * 10;
-  }
-
-  protected _fillPayload() {
-    this._data.push(this._sendNo); // 1字节
+  protected getPayload(): number[] {
+    const payload = [];
+    payload.push(this._sendNo); // 1字节
     for (const item of this.moveItemInfoList) {
-      this._data.push(item.axisNum); // 1字节
-      this._data.push(...InstructionTool.float32ToByteArr(item.speed)); // 4字节
-      this._data.push(...InstructionTool.float32ToByteArr(item.dest)); // 4字节
-      this._data.push(item.isRelative ? 1 : 0); // 1字节
+      payload.push(item.axisNum); // 1字节
+      payload.push(...InstructionTool.float32ToByteArr(item.speed)); // 4字节
+      payload.push(...InstructionTool.float32ToByteArr(item.dest)); // 4字节
+      payload.push(item.isRelative ? 1 : 0); // 1字节
     }
+    return payload;
   }
 }
 
@@ -142,13 +127,12 @@ export class GetPosInstruction extends Instruction {
     this.fillingData();
   }
 
-  protected getPayloadLen(): number {
-    return 1 + this.axisList.length;
-  }
-  protected _fillPayload() {
-    this._data.push(this._sendNo); // 1字节
+  protected getPayload(): number[] {
+    const payload = [];
+    payload.push(this._sendNo); // 1字节
     for (const item of this.axisList) {
-      this._data.push(item); // 1字节
+      payload.push(item); // 1字节
     }
+    return payload;
   }
 }

@@ -32,19 +32,16 @@ export abstract class Instruction {
     return 2 + 2 + 1 + 1 + 2;
   }
 
-  protected getTotalLen(): number {
-    return this.getAdditionLen() + this.getPayloadLen();
-  }
-
   protected fillingData() {
-    this._fillHead();
-    this._fillPayload();
+    const payload = this.getPayload();
+    this._fillHead(payload.length);
+    this._data.push(...payload);
     this._fillFoot();
   }
 
-  protected _fillHead() {
+  protected _fillHead(payloadLen) {
     this._data.push(...this.header); // 2字节
-    this._data.push(...InstructionTool.numToLoHi(this.getTotalLen())); // 2字节
+    this._data.push(...InstructionTool.numToLoHi(this.getAdditionLen() + payloadLen)); // 2字节
     this._data.push(this.getModuleNum()); // 1字节
     this._data.push(this.getNum()); // 1字节
   }
@@ -74,6 +71,5 @@ export abstract class Instruction {
     return this.constructor["TIMEOUT"];
   }
 
-  protected abstract getPayloadLen(): number;
-  protected abstract _fillPayload(): void;
+  protected abstract getPayload(): number[];
 }

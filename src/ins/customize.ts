@@ -17,13 +17,11 @@ export class SetZoomInstruction extends Instruction {
     this.fillingData();
   }
 
-  protected getPayloadLen(): number {
-    return 1 + 1;
-  }
-
-  protected _fillPayload() {
-    this._data.push(this._sendNo); // 1字节
-    this._data.push(this.lensNum); // 1字节
+  protected getPayload(): number[] {
+    const payload = [];
+    payload.push(this._sendNo); // 1字节
+    payload.push(this.lensNum); // 1字节
+    return payload;
   }
 }
 
@@ -33,17 +31,13 @@ export class GetZoomInstruction extends Instruction {
   public static readonly MODULE_NUM = 4;
   public static readonly NUM = 2;
 
-  constructor() {
+  public constructor() {
     super();
     this.fillingData();
   }
 
-  protected getPayloadLen(): number {
-    return 1;
-  }
-
-  protected _fillPayload() {
-    this._data.push(this._sendNo); // 1字节
+  protected getPayload(): number[] {
+    return [this._sendNo];
   }
 }
 
@@ -64,17 +58,17 @@ export class CapPosInstruction extends Instruction {
     this.capPosList = capPosList;
     this.fillingData();
   }
-  protected getPayloadLen(): number {
-    return 1 + 4 + this.capPosList.length * 8;
-  }
-  protected _fillPayload(): void {
-    this._data.push(this._sendNo);
-    this._data.push(...InstructionTool.numToLoHi(this.total));
-    this._data.push(...InstructionTool.numToLoHi(this.startIdx));
+
+  protected getPayload(): number[] {
+    const payload = [];
+    payload.push(this._sendNo);
+    payload.push(...InstructionTool.numToLoHi(this.total));
+    payload.push(...InstructionTool.numToLoHi(this.startIdx));
     for (const capPos of this.capPosList) {
-      this._data.push(...InstructionTool.float32ToByteArr(capPos.x));
-      this._data.push(...InstructionTool.float32ToByteArr(capPos.y));
+      payload.push(...InstructionTool.float32ToByteArr(capPos.x));
+      payload.push(...InstructionTool.float32ToByteArr(capPos.y));
     }
+    return payload;
   }
 }
 
@@ -91,13 +85,8 @@ export class TakePhotoInstruction extends Instruction {
     this.fillingData();
   }
 
-  protected getPayloadLen(): number {
-    return 1 + 1;
-  }
-
-  protected _fillPayload() {
-    this._data.push(this._sendNo);
-    this._data.push(this.camNum);
+  protected getPayload(): number[] {
+    return [this._sendNo, this.camNum];
   }
 }
 
@@ -114,13 +103,8 @@ export class SwitchModeInstruction extends Instruction {
     this.fillingData();
   }
 
-  protected getPayloadLen(): number {
-    return 1 + 1;
-  }
-
-  protected _fillPayload() {
-    this._data.push(this._sendNo);
-    this._data.push(this.mode);
+  protected getPayload(): number[] {
+    return [this._sendNo, this.mode];
   }
 }
 
@@ -130,17 +114,13 @@ export class InitPlcInstruction extends Instruction {
   public static readonly MODULE_NUM = 4;
   public static readonly NUM = 8;
 
-  constructor() {
+  public constructor() {
     super();
     this.fillingData();
   }
 
-  protected getPayloadLen(): number {
-    return 1;
-  }
-
-  protected _fillPayload() {
-    this._data.push(this._sendNo);
+  protected getPayload(): number[] {
+    return [this._sendNo];
   }
 }
 
@@ -150,16 +130,12 @@ export class StartPlcInstruction extends Instruction {
   public static readonly MODULE_NUM = 4;
   public static readonly NUM = 9;
 
-  constructor() {
+  public constructor() {
     super();
     this.fillingData();
   }
 
-  protected getPayloadLen(): number {
-    return 1;
-  }
-
-  protected _fillPayload() {
-    this._data.push(this._sendNo);
+  protected getPayload(): number[] {
+    return [this._sendNo];
   }
 }
