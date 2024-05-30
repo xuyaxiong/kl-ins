@@ -4,8 +4,6 @@ const chalk = require("chalk");
 const _ = require("lodash");
 
 export class Tools {
-  static lOG_STATUS = true;
-
   static formatTime(time: dayjs.Dayjs) {
     return time.format("YYYY-MM-DD h:mm:ss");
   }

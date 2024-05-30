@@ -10,4 +10,5 @@ export * from "./ins/cycle";
 // 自定义指令
 export * from "./ins/customize";
 
+// 发送代理
 export * from "./client/proxy";

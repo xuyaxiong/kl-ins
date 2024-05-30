@@ -65,6 +65,14 @@ export class PlcTcpProxy {
     }
   }
 
+  public stopLogging() {
+    this.LOG = false;
+  }
+
+  public startLogging() {
+    this.LOG = true;
+  }
+
   // 同步发送
   private async sendInstructionSync(instruction: Instruction): Promise<Buffer> {
     return new Promise((resolve, reject) => {
@@ -75,13 +83,6 @@ export class PlcTcpProxy {
         reject(false);
       }, instruction.getTimeout());
     });
-  }
-
-  private sendInstructionWithoutResp(instruction: Instruction) {
-    console.log(_.repeat("*", 88));
-    this._logBeforeSend(instruction);
-    this._send(instruction);
-    console.log(_.repeat("*", 88));
   }
 
   private async sendInstructionSyncWithLog(
@@ -104,6 +105,13 @@ export class PlcTcpProxy {
     } finally {
       console.log(_.repeat("*", 88));
     }
+  }
+
+  private sendInstructionWithoutResp(instruction: Instruction) {
+    console.log(_.repeat("*", 88));
+    this._logBeforeSend(instruction);
+    this._send(instruction);
+    console.log(_.repeat("*", 88));
   }
 
   private async _send(instruction: Instruction) {
