@@ -1,4 +1,3 @@
-import * as fs from "fs";
 import dayjs from 'dayjs';
 import { consola } from "consola";
 const chalk = require("chalk");
@@ -6,34 +5,6 @@ const _ = require("lodash");
 
 export class Tools {
   static lOG_STATUS = true;
-
-  static float64ArrToBuffer(arr: number[]) {
-    return Buffer.from(Float64Array.from(arr).buffer);
-  }
-  static bufferToFloat64Arr(buffer: Buffer): number[] {
-    return Array.from(new Float64Array(buffer.buffer));
-  }
-  static float32ArrToBuffer(arr: number[]) {
-    return Buffer.from(Float32Array.from(arr).buffer);
-  }
-  static bufferToFloat32Arr(buffer: Buffer): number[] {
-    return Array.from(new Float32Array(buffer.buffer));
-  }
-  static intArrToBuffer(arr: number[]) {
-    return Buffer.from(Int32Array.from(arr).buffer);
-  }
-  static bufferToIntArr(buffer: Buffer): number[] {
-    return Array.from(new Int32Array(buffer.buffer));
-  }
-
-  static ensurePath(path: string) {
-    return new Promise<void>(async (resolve) => {
-      if (!fs.existsSync(path)) {
-        fs.mkdirSync(path, { recursive: true });
-      }
-      resolve();
-    });
-  }
 
   static formatTime(time: dayjs.Dayjs) {
     return time.format("YYYY-MM-DD h:mm:ss");
@@ -45,10 +16,6 @@ export class Tools {
 
   static formatNowTime() {
     return Tools.formatTime(dayjs());
-  }
-
-  static formatNowTimeV2() {
-    return dayjs().format("YYYYMMDDHHmmss");
   }
 
   static formatNowTimestamp() {
