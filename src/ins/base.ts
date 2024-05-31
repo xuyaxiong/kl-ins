@@ -6,9 +6,9 @@ export abstract class Instruction {
   public static IS_SYNC: boolean;
   public static TIMEOUT: number;
 
-  protected header = [0x55, 0xaa]; // 数据头
-  protected footer = [0x0d, 0x0a]; // 校验位
-  protected _data: number[];
+  private header = [0x55, 0xaa]; // 数据头
+  private footer = [0x0d, 0x0a]; // 校验位
+  private _data: number[];
   protected _sendNo: number; // 发送编号
 
   protected constructor() {
@@ -28,7 +28,7 @@ export abstract class Instruction {
     return `${Instruction.NAME} ${this.toUint8Array()}`;
   }
 
-  protected getAdditionLen(): number {
+  private getAdditionLen(): number {
     return 2 + 2 + 1 + 1 + 2;
   }
 
@@ -39,13 +39,13 @@ export abstract class Instruction {
     this._fillFoot();
   }
 
-  protected _fillHead(payloadLen) {
+  private _fillHead(payloadLen) {
     this._data.push(...this.header); // 2字节
     this._data.push(...InstructionTool.numToLoHi(this.getAdditionLen() + payloadLen)); // 2字节
     this._data.push(this.getModuleNum()); // 1字节
     this._data.push(this.getNum()); // 1字节
   }
-  protected _fillFoot() {
+  private _fillFoot() {
     this._data.push(...this.footer); // 2字节
   }
 
