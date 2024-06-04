@@ -11,7 +11,6 @@ export class SubAxisInstruction extends Instruction {
   constructor(cycle: number) {
     super();
     this.cycle = cycle;
-    this.fillingData();
   }
 
   protected getPayload(): number[] {
@@ -26,7 +25,6 @@ export class UnsubAxisInstruction extends Instruction {
 
   public constructor() {
     super();
-    this.fillingData();
   }
 
   protected getPayload(): number[] {

@@ -12,7 +12,6 @@ export class EnumIOInstruction extends Instruction {
 
   public constructor() {
     super();
-    this.fillingData();
   }
 
   protected getPayload(): number[] {
@@ -29,7 +28,6 @@ export class PulseStartInstruction extends Instruction {
   constructor(pulseStart: PulseStart) {
     super();
     this.pulseStart = pulseStart;
-    this.fillingData();
   }
 
   protected getPayload(): number[] {
@@ -56,7 +54,6 @@ export class PulseStopInstruction extends Instruction {
   constructor(ioNum: number) {
     super();
     this.ioNum = ioNum;
-    this.fillingData();
   }
 
   protected getPayload(): number[] {
@@ -76,7 +73,6 @@ export class SetIOInstruction extends Instruction {
   constructor(setIOList: SetIO[]) {
     super();
     this.setIOList = setIOList;
-    this.fillingData();
   }
 
   protected getPayload(): number[] {
@@ -100,7 +96,6 @@ export class GetIOInstruction extends Instruction {
   constructor(axisList: number[]) {
     super();
     this.axisList = axisList;
-    this.fillingData();
   }
 
   protected getPayload(): number[] {

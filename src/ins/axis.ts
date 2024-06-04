@@ -30,7 +30,6 @@ export class HomeInstruction extends Instruction {
   constructor(axisList: number[]) {
     super();
     this.axisList = axisList;
-    this.fillingData();
   }
 
   protected getPayload(): number[] {
@@ -56,7 +55,6 @@ export class JogStartInstruction extends Instruction {
     this.axisNum = axisNum;
     this.speed = speed;
     this.direction = direction;
-    this.fillingData();
   }
 
   protected getPayload(): number[] {
@@ -78,7 +76,6 @@ export class JogStopInstruction extends Instruction {
   constructor(axisNum: number) {
     super();
     this.axisNum = axisNum;
-    this.fillingData();
   }
 
   protected getPayload(): number[] {
@@ -97,7 +94,6 @@ export class MoveInstruction extends Instruction {
   constructor(moveItemInfoList: MoveItemInfo[]) {
     super();
     this.moveItemInfoList = moveItemInfoList;
-    this.fillingData();
   }
 
   protected getPayload(): number[] {
@@ -124,7 +120,6 @@ export class GetPosInstruction extends Instruction {
   constructor(axisList: number[]) {
     super();
     this.axisList = axisList;
-    this.fillingData();
   }
 
   protected getPayload(): number[] {

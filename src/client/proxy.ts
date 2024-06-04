@@ -57,6 +57,7 @@ export class PlcTcpProxy {
   }
 
   public async sendInstruction(instruction: Instruction) {
+    instruction.fillingData();
     if (instruction.isSync()) {
       if (this.LOG) return await this.sendInstructionSyncWithLog(instruction);
       else return await this.sendInstructionSync(instruction);

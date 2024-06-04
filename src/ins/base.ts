@@ -11,16 +11,20 @@ export abstract class Instruction {
   private _data: number[];
   protected _sendNo: number; // 发送编号
 
+  private isFilled = false; // 数据是否填充
+
   protected constructor() {
     this._data = [];
     this._sendNo = InstructionTool.getSendNo();
   }
 
   public toArr(): number[] {
+    this.fillingData();
     return this._data;
   }
 
   public toUint8Array(): Uint8Array {
+    this.fillingData();
     return new Uint8Array(Buffer.from(this._data));
   }
 
@@ -32,16 +36,21 @@ export abstract class Instruction {
     return 2 + 2 + 1 + 1 + 2;
   }
 
-  protected fillingData() {
-    const payload = this.getPayload();
-    this._fillHead(payload.length);
-    this._data.push(...payload);
-    this._fillFoot();
+  public fillingData() {
+    if (!this.isFilled) {
+      this.isFilled = true;
+      const payload = this.getPayload();
+      this._fillHead(payload.length);
+      this._data.push(...payload);
+      this._fillFoot();
+    }
   }
 
   private _fillHead(payloadLen) {
     this._data.push(...this.header); // 2字节
-    this._data.push(...InstructionTool.numToLoHi(this.getAdditionLen() + payloadLen)); // 2字节
+    this._data.push(
+      ...InstructionTool.numToLoHi(this.getAdditionLen() + payloadLen)
+    ); // 2字节
     this._data.push(this.getModuleNum()); // 1字节
     this._data.push(this.getNum()); // 1字节
   }
