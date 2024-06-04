@@ -1,6 +1,6 @@
 {
   "name": "kl-ins",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "上位机与PLC通信指令",
   "main": "dist/index.js",
   "type": "commonjs",

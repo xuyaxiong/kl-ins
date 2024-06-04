@@ -3,4 +3,4 @@ test/
 node_modules/
 .gitignore
 tsconfig.json
-vite.config.ts
+vite.config.mts

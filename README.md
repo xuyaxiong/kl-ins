@@ -18,8 +18,8 @@ await proxy.sendInstruction(ins);
 
 // 设置监听函数
 proxy.setPlcReportDataHandler({
-    moduleNum: number, 
-    instructionNum: number, 
+    moduleNum: number,
+    instructionNum: number,
     data: number[]
 } => {
     // 处理数据
@@ -74,3 +74,41 @@ new GetPosInstruction(axisList: number[]);
 2. IO 控制
 
 3. 周期性包
+
+### 自定义指令
+
+1. 同步指令
+
+```typescript
+import { Instruction, IsSync } from "kl-ins";
+
+// 同步方法需要使用IsSync注解，并传入超时时长，单位为毫秒
+@IsSync({ TIMEOUT: 2_000 })
+class YourInstruction extends Instruction {
+  public static readonly NAME = "你的指令名称";
+  public static readonly MODULE_NUM = 1; //  模块号
+  public static readonly NUM = 1; // 指令号,同一模块指令号需保证唯一
+
+  protected getPayload(): number[] {
+    // 你需要实现这个方法，返回payload数组
+    return [];
+  }
+}
+```
+
+2. 异步指令
+
+```typescript
+import { Instruction } from "kl-ins";
+
+class YourInstruction extends Instruction {
+  public static readonly NAME = "你的指令名称";
+  public static readonly MODULE_NUM = 1; //  模块号
+  public static readonly NUM = 1; // 指令号,同一模块指令号需保证唯一
+
+  protected getPayload(): number[] {
+    // 你需要实现这个方法，返回payload数组
+    return [];
+  }
+}
+```

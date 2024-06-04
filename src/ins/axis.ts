@@ -11,7 +11,6 @@ export class EnumAxisInstruction extends Instruction {
 
   public constructor() {
     super();
-    this.fillingData();
   }
 
   protected getPayload(): number[] {
