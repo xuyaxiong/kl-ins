@@ -19,7 +19,7 @@ export class PlcTcpProxy {
   }
 
   public constructor(name: string, host: string, port: number) {
-    this.client = new TCPClient(name, { host, port }, async ({ data }) => {
+    this.client = new TCPClient(name, { host, port }, async (data: Buffer) => {
       // 数据处理
       // console.log('收到原始数据data:', data);
       let dataArr: number[] = Array.from(data);
