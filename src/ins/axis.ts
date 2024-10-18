@@ -38,6 +38,10 @@ export class HomeInstruction extends Instruction {
     }
     return payload;
   }
+
+  public detail(): string {
+    return `${this.getName()}\n\t轴号列表: ${this.axisList.join(", ")}`;
+  }
 }
 
 export class JogStartInstruction extends Instruction {
@@ -63,6 +67,12 @@ export class JogStartInstruction extends Instruction {
     payload.push(this.direction);
     return payload;
   }
+
+  public detail(): string {
+    return `${this.getName()}\n\t轴号: ${this.axisNum}\n\t速度: ${
+      this.speed
+    }\n\t方向: ${this.direction}`;
+  }
 }
 
 export class JogStopInstruction extends Instruction {
@@ -79,6 +89,10 @@ export class JogStopInstruction extends Instruction {
 
   protected getPayload(): number[] {
     return [this.axisNum];
+  }
+
+  public detail(): string {
+    return `${this.getName()}\n\t轴号: ${this.axisNum}`;
   }
 }
 
@@ -106,6 +120,16 @@ export class MoveInstruction extends Instruction {
     }
     return payload;
   }
+
+  public detail(): string {
+    const info = this.moveItemInfoList
+      .map(
+        (item) =>
+          `轴号: ${item.axisNum}, 速度: ${item.speed}, 目标值: ${item.dest}, 是否相对: ${item.isRelative}`
+      )
+      .join("\n\t");
+    return `${this.getName()}\n\t${info}`;
+  }
 }
 
 @IsSync({ TIMEOUT: 2_000 })
@@ -128,5 +152,9 @@ export class GetPosInstruction extends Instruction {
       payload.push(item); // 1字节
     }
     return payload;
+  }
+
+  public detail(): string {
+    return `${this.getName()}\n\t轴号列表: ${this.axisList.join(", ")}`;
   }
 }

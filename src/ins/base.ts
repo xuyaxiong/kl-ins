@@ -32,6 +32,10 @@ export abstract class Instruction {
     return `${this.getName()} ${this.toUint8Array()}`;
   }
 
+  public toHexString(): string {
+    return InstructionTools.arrToHexStr(this.toArr());
+  }
+
   private getAdditionLen(): number {
     return 2 + 2 + 1 + 1 + 2;
   }
@@ -81,4 +85,8 @@ export abstract class Instruction {
   }
 
   protected abstract getPayload(): number[];
+
+  public detail(): string {
+    return this.getName();
+  }
 }
