@@ -1,5 +1,5 @@
-import { InstructionTools } from "./instools";
-export abstract class Instruction {
+import InsTools from "./instools";
+export default abstract class Ins {
   public static NAME: string;
   public static MODULE_NUM: number;
   public static NUM: number;
@@ -15,7 +15,7 @@ export abstract class Instruction {
 
   protected constructor() {
     this._data = [];
-    this._sendNo = InstructionTools.getSendNo();
+    this._sendNo = InsTools.getSendNo();
   }
 
   public toArr(): number[] {
@@ -33,7 +33,7 @@ export abstract class Instruction {
   }
 
   public toHexString(): string {
-    return InstructionTools.arrToHexStr(this.toArr());
+    return InsTools.arrToHexStr(this.toArr());
   }
 
   private getAdditionLen(): number {
@@ -52,9 +52,7 @@ export abstract class Instruction {
 
   private _fillHead(payloadLen: number) {
     this._data.push(...this.header); // 2字节
-    this._data.push(
-      ...InstructionTools.numToLoHi(this.getAdditionLen() + payloadLen)
-    ); // 2字节
+    this._data.push(...InsTools.numToLoHi(this.getAdditionLen() + payloadLen)); // 2字节
     this._data.push(this.getModuleNum()); // 1字节
     this._data.push(this.getNum()); // 1字节
   }

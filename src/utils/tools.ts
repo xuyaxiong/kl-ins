@@ -3,7 +3,7 @@ import { consola } from "consola";
 const chalk = require("chalk");
 const _ = require("lodash");
 
-export class Tools {
+export default class Tools {
   static formatTime(time: dayjs.Dayjs) {
     return time.format("YYYY-MM-DD h:mm:ss");
   }

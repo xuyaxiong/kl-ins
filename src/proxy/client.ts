@@ -1,5 +1,5 @@
 import { Socket } from "net";
-import { Tools } from "../utils/tools";
+import Tools from "../utils/tools";
 import { TCPConfig } from "./bo";
 
 export default class TCPClient {

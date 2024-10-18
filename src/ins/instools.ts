@@ -1,6 +1,6 @@
 const _ = require("lodash");
 
-export class InstructionTools {
+export default class InsTools {
   private static SEND_NO = -1;
 
   public static numToLoHi(num: number): number[] {
@@ -35,8 +35,8 @@ export class InstructionTools {
   }
 
   public static getSendNo() {
-    InstructionTools.SEND_NO = (InstructionTools.SEND_NO + 1) % 256;
-    return InstructionTools.SEND_NO;
+    InsTools.SEND_NO = (InsTools.SEND_NO + 1) % 256;
+    return InsTools.SEND_NO;
   }
 
   public static hexStringToBuffer(hexStr: string) {

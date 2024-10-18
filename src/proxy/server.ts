@@ -1,5 +1,5 @@
 import * as net from "net";
-import { Tools } from "../utils/tools";
+import Tools from "../utils/tools";
 
 export default class TCPServer {
   private server: net.Server;

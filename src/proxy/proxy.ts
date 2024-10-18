@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
 const chalk = require("chalk");
 const _ = require("lodash");
-import { Instruction } from "../ins/base";
-import { InstructionTools } from "../ins/instools";
-import { Tools } from "../utils/tools";
+import Ins from "../ins/base";
+import InsTools from "../ins/instools";
+import Tools from "../utils/tools";
 
 export default class Proxy {
   protected resolve: Function | undefined = undefined;
@@ -24,7 +24,7 @@ export default class Proxy {
     return this.latestSendNo;
   }
 
-  public async sendInstruction(instruction: Instruction) {
+  public async sendInstruction(instruction: Ins) {
     instruction.fillingData();
     if (instruction.isSync()) {
       if (this.LOG) return await this.sendInstructionSyncWithLog(instruction);
@@ -45,7 +45,7 @@ export default class Proxy {
   protected preprocessData(data: Buffer) {
     // console.log('收到原始数据data:', data);
     let dataArr: number[] = Array.from(data);
-    const len = InstructionTools.loHiToNum(dataArr[2], dataArr[3]);
+    const len = InsTools.loHiToNum(dataArr[2], dataArr[3]);
     dataArr = dataArr.slice(0, len);
     // console.log('截取后数据dataArr:', dataArr);
     const receiveModuleNum = dataArr[4];
@@ -54,7 +54,7 @@ export default class Proxy {
   }
 
   // 同步发送
-  private async sendInstructionSync(instruction: Instruction): Promise<Buffer> {
+  private async sendInstructionSync(instruction: Ins): Promise<Buffer> {
     return new Promise((resolve, reject) => {
       this.latestSendNo = instruction.getSendNo();
       this._send(instruction);
@@ -65,9 +65,7 @@ export default class Proxy {
     });
   }
 
-  private async sendInstructionSyncWithLog(
-    instruction: Instruction
-  ): Promise<Buffer> {
+  private async sendInstructionSyncWithLog(instruction: Ins): Promise<Buffer> {
     try {
       console.log(_.repeat("*", 88));
       const startTime = this._logBeforeSend(instruction);
@@ -87,20 +85,20 @@ export default class Proxy {
     }
   }
 
-  private sendInstructionWithoutResp(instruction: Instruction) {
+  private sendInstructionWithoutResp(instruction: Ins) {
     console.log(_.repeat("*", 88));
     this._logBeforeSend(instruction);
     this._send(instruction);
     console.log(_.repeat("*", 88));
   }
 
-  private async _send(instruction: Instruction) {
+  private async _send(instruction: Ins) {
     console.log("发送HEX数据:", chalk.yellow(instruction.toHexString()));
     console.log("detail:", chalk.cyan(instruction.detail()));
     this.end.sendData(instruction.toUint8Array());
   }
 
-  private _logBeforeSend(instruction: Instruction) {
+  private _logBeforeSend(instruction: Ins) {
     const startTime = dayjs();
     console.log(chalk.bold.bgWhite(instruction.getName()));
     console.log("发送时间:", Tools.formatTimestamp(startTime));
@@ -111,9 +109,7 @@ export default class Proxy {
   private _logAfterSend(resultArr: number[], startTime: dayjs.Dayjs) {
     console.log(`接收数据: ${chalk.blue(resultArr.join(","))}`);
     console.log(
-      `接收Hex数据: ${chalk.magentaBright(
-        InstructionTools.arrToHexStr(resultArr)
-      )}`
+      `接收Hex数据: ${chalk.magentaBright(InsTools.arrToHexStr(resultArr))}`
     );
     const endTime = dayjs();
     console.log("接收时间:", Tools.formatTimestamp(endTime));

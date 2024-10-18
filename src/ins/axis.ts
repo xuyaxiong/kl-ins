@@ -1,11 +1,11 @@
 const _ = require("lodash");
-import { InstructionTools } from "./instools";
-import { Instruction } from "./base";
+import InsTools from "./instools";
+import Ins from "./base";
 import { MoveItemInfo } from "./bo";
 import { IsSync } from "./decorator";
 
 @IsSync({ TIMEOUT: 2_000 })
-export class EnumAxisInstruction extends Instruction {
+export class EnumAxisIns extends Ins {
   public static readonly NAME = "枚举有效轴号指令";
   public static readonly MODULE_NUM = 1;
   public static readonly NUM = 1;
@@ -20,7 +20,7 @@ export class EnumAxisInstruction extends Instruction {
 }
 
 @IsSync({ TIMEOUT: 120_000 })
-export class HomeInstruction extends Instruction {
+export class HomeIns extends Ins {
   public static readonly NAME = "复位回零指令";
   public static readonly MODULE_NUM = 1;
   public static readonly NUM = 2;
@@ -45,7 +45,7 @@ export class HomeInstruction extends Instruction {
   }
 }
 
-export class JogStartInstruction extends Instruction {
+export class JogStartIns extends Ins {
   public static readonly NAME = "手动示教移动开始指令";
   public static readonly MODULE_NUM = 1;
   public static readonly NUM = 3;
@@ -64,7 +64,7 @@ export class JogStartInstruction extends Instruction {
   protected getPayload(): number[] {
     const payload = [];
     payload.push(this.axisNum);
-    payload.push(...InstructionTools.float32ToByteArr(this.speed));
+    payload.push(...InsTools.float32ToByteArr(this.speed));
     payload.push(this.direction);
     return payload;
   }
@@ -76,7 +76,7 @@ export class JogStartInstruction extends Instruction {
   }
 }
 
-export class JogStopInstruction extends Instruction {
+export class JogStopIns extends Ins {
   public static readonly NAME = "手动示教移动停止指令";
   public static readonly MODULE_NUM = 1;
   public static readonly NUM = 4;
@@ -98,7 +98,7 @@ export class JogStopInstruction extends Instruction {
 }
 
 @IsSync({ TIMEOUT: 120_000 })
-export class MoveInstruction extends Instruction {
+export class MoveIns extends Ins {
   public static readonly NAME = "运动指令";
   public static readonly MODULE_NUM = 1;
   public static readonly NUM = 5;
@@ -115,8 +115,8 @@ export class MoveInstruction extends Instruction {
     payload.push(this._sendNo); // 1字节
     for (const item of this.moveItemInfoList) {
       payload.push(item.axisNum); // 1字节
-      payload.push(...InstructionTools.float32ToByteArr(item.speed)); // 4字节
-      payload.push(...InstructionTools.float32ToByteArr(item.dest)); // 4字节
+      payload.push(...InsTools.float32ToByteArr(item.speed)); // 4字节
+      payload.push(...InsTools.float32ToByteArr(item.dest)); // 4字节
       payload.push(item.isRelative ? 1 : 0); // 1字节
     }
     return payload;
@@ -145,7 +145,7 @@ export class MoveInstruction extends Instruction {
 }
 
 @IsSync({ TIMEOUT: 10_000 })
-export class GetPosInstruction extends Instruction {
+export class GetPosIns extends Ins {
   public static readonly NAME = "获取轴速与位置指令";
   public static readonly MODULE_NUM = 1;
   public static readonly NUM = 6;
@@ -179,13 +179,13 @@ export class GetPosInstruction extends Instruction {
     const arr = [];
     for (const item of mockData) {
       arr.push(item.axis);
-      arr.push(...InstructionTools.float32ToByteArr(item.speed));
-      arr.push(...InstructionTools.float32ToByteArr(item.dest));
+      arr.push(...InsTools.float32ToByteArr(item.speed));
+      arr.push(...InsTools.float32ToByteArr(item.dest));
     }
     const len = 6 + 1 + mockData.length * (1 + 4 + 4) + 2;
-    return `55 aa ${InstructionTools.arrToHexStr(
-      InstructionTools.numToLoHi(len)
-    )} 01 86 ${this.getSendNoHex()} ${InstructionTools.arrToHexStr(arr)} 0d 0a`;
+    return `55 aa ${InsTools.arrToHexStr(
+      InsTools.numToLoHi(len)
+    )} 01 86 ${this.getSendNoHex()} ${InsTools.arrToHexStr(arr)} 0d 0a`;
   }
 
   public static parseRespData(buf: Buffer) {
@@ -199,8 +199,8 @@ export class GetPosInstruction extends Instruction {
     const chunks = _.chunk(data, 9);
     const res = chunks.map((item: number[]) => {
       const axisNum = item[0];
-      const speed = InstructionTools.byteArrToFloat32(_.slice(item, 1, 5));
-      const pos = InstructionTools.byteArrToFloat32(_.slice(item, 5, 10));
+      const speed = InsTools.byteArrToFloat32(_.slice(item, 1, 5));
+      const pos = InsTools.byteArrToFloat32(_.slice(item, 5, 10));
       return {
         axisNum,
         speed,
