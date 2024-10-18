@@ -80,6 +80,10 @@ export abstract class Instruction {
     return this._sendNo;
   }
 
+  public getSendNoHex(): string {
+    return `${this.getSendNo().toString(16).padStart(2, "0")}`;
+  }
+
   public getTimeout(): number {
     return (this.constructor as any).TIMEOUT;
   }

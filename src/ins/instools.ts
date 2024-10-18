@@ -38,4 +38,8 @@ export class InstructionTools {
     InstructionTools.SEND_NO = (InstructionTools.SEND_NO + 1) % 256;
     return InstructionTools.SEND_NO;
   }
+
+  public static hexStringToBuffer(hexStr: string) {
+    return Buffer.from(hexStr.replace(/ /g, ""), "hex");
+  }
 }
