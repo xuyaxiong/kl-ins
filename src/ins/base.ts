@@ -38,7 +38,6 @@ export abstract class Instruction {
 
   public fillingData() {
     if (!this.isFilled) {
-      console.log("调用 fillingData");
       this.isFilled = true;
       const payload = this.getPayload();
       this._fillHead(payload.length);

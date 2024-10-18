@@ -14,8 +14,8 @@ export class PlcTcpProxy {
   private LOG = true;
   private client: TCPClient;
 
-  public connect() {
-    this.client.connect();
+  public async connect() {
+    await this.client.connect();
   }
 
   public constructor(name: string, host: string, port: number) {

@@ -20,23 +20,26 @@ export class TCPClient {
 
   async connect() {
     const { host, port } = this.tcpConfig;
-    this.client.connect(port, host, () => {
-      Tools.logKVSuccess(`${this.name}状态`, "连接成功");
+    return new Promise((resolve) => {
+      this.client.connect(port, host, () => {
+        Tools.logKVSuccess(`${this.name}状态`, "连接成功");
 
-      this.client.on("data", (data) => {
-        this.dataHandler && this.dataHandler(data);
+        this.client.on("data", (data) => {
+          this.dataHandler && this.dataHandler(data);
+        });
+
+        // 监听连接断开事件
+        this.client.on("close", async () => {
+          Tools.logKVFail(`${this.name}状态`, "连接中断");
+          await this.reconnect();
+        });
+        resolve(true);
       });
 
-      // 监听连接断开事件
-      this.client.on("close", async () => {
-        Tools.logKVFail(`${this.name}状态`, "连接中断");
+      this.client.on("error", async (err) => {
+        Tools.logKVFail(`${this.name}状态`, "连接失败");
         await this.reconnect();
       });
-    });
-
-    this.client.on("error", async (err) => {
-      Tools.logKVFail(`${this.name}状态`, "连接失败");
-      await this.reconnect();
     });
   }
 
