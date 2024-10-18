@@ -4,58 +4,22 @@ const _ = require("lodash");
 import { Instruction } from "../ins/base";
 import { InstructionTools } from "../ins/instools";
 import { Tools } from "../utils/tools";
-import { isSync } from "../ins/decorator";
-import { TCPClient } from "./client";
-
-export class PlcTcpProxy {
-  private resolve: Function | undefined = undefined;
-  private latestSendNo = -1;
-  private plcReportDataHandler: Function | undefined;
-  private LOG = true;
-  private client: TCPClient;
-
-  public async connect() {
-    await this.client.connect();
-  }
-
-  public constructor(name: string, host: string, port: number) {
-    this.client = new TCPClient(name, { host, port }, async (data: Buffer) => {
-      // 数据处理
-      // console.log('收到原始数据data:', data);
-      let dataArr: number[] = Array.from(data);
-      const len = InstructionTools.loHiToNum(dataArr[2], dataArr[3]);
-      dataArr = dataArr.slice(0, len);
-      // console.log('截取后数据dataArr:', dataArr);
-      const receiveModuleNum = dataArr[4];
-      const receiveNum = dataArr[5] - 0x80;
-      // const receiveNum = dataArr[5];
-      if (isSync(receiveModuleNum, receiveNum)) {
-        const receiveSendNo = dataArr[6];
-        if (this.getLatestSendNo() === receiveSendNo) {
-          const resolve = this.getResolve();
-          resolve?.(data);
-        }
-      } else {
-        // plc to server
-        if (this.plcReportDataHandler)
-          await this.plcReportDataHandler({
-            moduleNum: receiveModuleNum,
-            instructionNum: receiveNum,
-            data: dataArr,
-          });
-      }
-    });
-  }
+export class Proxy {
+  protected resolve: Function | undefined = undefined;
+  protected latestSendNo = -1;
+  protected plcReportDataHandler: Function | undefined;
+  protected LOG = true;
+  protected end: any;
 
   public setPlcReportDataHandler(handler: Function) {
     this.plcReportDataHandler = handler;
   }
 
-  public getResolve() {
+  protected getResolve() {
     return this.resolve;
   }
 
-  public getLatestSendNo() {
+  protected getLatestSendNo() {
     return this.latestSendNo;
   }
 
@@ -75,6 +39,17 @@ export class PlcTcpProxy {
 
   public startLogging() {
     this.LOG = true;
+  }
+
+  protected preprocessData(data: Buffer) {
+    // console.log('收到原始数据data:', data);
+    let dataArr: number[] = Array.from(data);
+    const len = InstructionTools.loHiToNum(dataArr[2], dataArr[3]);
+    dataArr = dataArr.slice(0, len);
+    // console.log('截取后数据dataArr:', dataArr);
+    const receiveModuleNum = dataArr[4];
+    const receiveNum = dataArr[5] - 0x80;
+    return { strippedData: dataArr, receiveModuleNum, receiveNum };
   }
 
   // 同步发送
@@ -123,7 +98,7 @@ export class PlcTcpProxy {
       "发送HEX数据:",
       chalk.yellow(InstructionTools.arrToHexStr(instruction.toArr()))
     );
-    this.client.sendData(instruction.toUint8Array());
+    this.end.sendData(instruction.toUint8Array());
   }
 
   private _logBeforeSend(instruction: Instruction) {

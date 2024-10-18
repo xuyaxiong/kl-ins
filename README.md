@@ -9,8 +9,8 @@ npm install kl-ins
 ### 用法
 
 ```typescript
-const proxy = new PlcTcpProxy("PLC", "127.0.0.1", 3000);
-proxy.connect();
+const proxy = new ClientProxy("PLC", "127.0.0.1", 3000);
+await proxy.connect();
 
 // 发送同步指令
 const ins = new HomeInstruction([1, 2, 3, 4]);
