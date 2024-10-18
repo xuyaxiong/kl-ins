@@ -1,7 +1,7 @@
 import * as net from "net";
 import { Tools } from "../utils/tools";
 
-export class TCPServer {
+export default class TCPServer {
   private server: net.Server;
   private socket: net.Socket | null = null;
   constructor(private dataHandler: Function) {

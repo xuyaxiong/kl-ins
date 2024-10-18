@@ -1,6 +1,6 @@
-import { Proxy } from "./proxy";
+import Proxy from "./proxy";
 import { isSync } from "../ins/decorator";
-import { TCPServer } from "./server";
+import TCPServer from "./server";
 
 export class ServerProxy extends Proxy {
   public listen() {

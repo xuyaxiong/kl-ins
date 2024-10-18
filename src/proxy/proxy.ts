@@ -4,7 +4,8 @@ const _ = require("lodash");
 import { Instruction } from "../ins/base";
 import { InstructionTools } from "../ins/instools";
 import { Tools } from "../utils/tools";
-export class Proxy {
+
+export default class Proxy {
   protected resolve: Function | undefined = undefined;
   protected latestSendNo = -1;
   protected plcReportDataHandler: Function | undefined;

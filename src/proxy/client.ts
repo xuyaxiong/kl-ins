@@ -1,12 +1,8 @@
 import { Socket } from "net";
 import { Tools } from "../utils/tools";
+import { TCPConfig } from "./bo";
 
-export interface TCPConfig {
-  host: string;
-  port: number;
-}
-
-export class TCPClient {
+export default class TCPClient {
   private client: Socket;
   private reconnectTimeout: NodeJS.Timeout | undefined = undefined;
 

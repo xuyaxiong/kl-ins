@@ -1,4 +1,4 @@
-import { ServerProxy } from "../client/serverProxy";
+import { ServerProxy } from "../proxy/serverProxy";
 import { HomeInstruction } from "../ins/axis";
 import { Tools } from "../utils/tools";
 
