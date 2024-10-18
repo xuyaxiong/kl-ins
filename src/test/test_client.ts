@@ -12,5 +12,7 @@ const proxy = new ClientProxy("测试客户端", "127.0.0.1", 7777);
       isRelative: true,
     },
   ]);
-  await proxy.sendInstruction(moveIns);
+  console.log("mock返回数据:", moveIns.mockRespData());
+  const retBuf = await proxy.sendInstruction(moveIns);
+  console.log("解析返回数据:", MoveInstruction.parseRespData(retBuf!));
 })();

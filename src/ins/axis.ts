@@ -133,7 +133,7 @@ export class MoveInstruction extends Instruction {
   }
 
   public mockRespData(): string {
-    return `${this.getName()}mock返回数据: 55 aa 0d 00 01 85 ${this.getSendNoHex()} 00 00 00 00 0d 0a`;
+    return `55 aa 0d 00 01 85 ${this.getSendNoHex()} 00 00 00 00 0d 0a`;
   }
 
   public static parseRespData(buf: Buffer) {
@@ -183,7 +183,7 @@ export class GetPosInstruction extends Instruction {
       arr.push(...InstructionTools.float32ToByteArr(item.dest));
     }
     const len = 6 + 1 + mockData.length * (1 + 4 + 4) + 2;
-    return `${this.getName()}mock返回数据: 55 aa ${InstructionTools.arrToHexStr(
+    return `55 aa ${InstructionTools.arrToHexStr(
       InstructionTools.numToLoHi(len)
     )} 01 86 ${this.getSendNoHex()} ${InstructionTools.arrToHexStr(arr)} 0d 0a`;
   }
