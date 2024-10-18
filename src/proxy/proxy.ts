@@ -24,13 +24,13 @@ export default class Proxy {
     return this.latestSendNo;
   }
 
-  public async sendInstruction(instruction: Ins) {
+  public async sendIns(instruction: Ins) {
     instruction.fillingData();
     if (instruction.isSync()) {
-      if (this.LOG) return await this.sendInstructionSyncWithLog(instruction);
-      else return await this.sendInstructionSync(instruction);
+      if (this.LOG) return await this.sendInsSyncWithLog(instruction);
+      else return await this.sendInsSync(instruction);
     } else {
-      this.sendInstructionWithoutResp(instruction);
+      this.sendInsWithoutResp(instruction);
     }
   }
 
@@ -54,7 +54,7 @@ export default class Proxy {
   }
 
   // 同步发送
-  private async sendInstructionSync(instruction: Ins): Promise<Buffer> {
+  private async sendInsSync(instruction: Ins): Promise<Buffer> {
     return new Promise((resolve, reject) => {
       this.latestSendNo = instruction.getSendNo();
       this._send(instruction);
@@ -65,11 +65,11 @@ export default class Proxy {
     });
   }
 
-  private async sendInstructionSyncWithLog(instruction: Ins): Promise<Buffer> {
+  private async sendInsSyncWithLog(instruction: Ins): Promise<Buffer> {
     try {
       console.log(_.repeat("*", 88));
       const startTime = this._logBeforeSend(instruction);
-      const result = await this.sendInstructionSync(instruction);
+      const result = await this.sendInsSync(instruction);
       let resultArr = Array.from(result);
       const lenLo = resultArr[2];
       const lenHi = resultArr[3];
@@ -85,7 +85,7 @@ export default class Proxy {
     }
   }
 
-  private sendInstructionWithoutResp(instruction: Ins) {
+  private sendInsWithoutResp(instruction: Ins) {
     console.log(_.repeat("*", 88));
     this._logBeforeSend(instruction);
     this._send(instruction);

@@ -7,5 +7,5 @@ proxy.listen();
 
 (async () => {
   await Tools.sleep(10_000);
-  proxy.sendInstruction(new HomeIns([1, 2, 3, 4]));
+  proxy.sendIns(new HomeIns([1, 2, 3, 4]));
 })();
