@@ -24,13 +24,13 @@ export default class Proxy {
     return this.latestSendNo;
   }
 
-  public async sendIns(instruction: Ins) {
-    instruction.fillingData();
-    if (instruction.isSync()) {
-      if (this.LOG) return await this.sendInsSyncWithLog(instruction);
-      else return await this.sendInsSync(instruction);
+  public async sendIns(ins: Ins) {
+    ins.fillingData();
+    if (ins.isSync()) {
+      if (this.LOG) return await this.sendInsSyncWithLog(ins);
+      else return await this.sendInsSync(ins);
     } else {
-      this.sendInsWithoutResp(instruction);
+      this.sendInsWithoutResp(ins);
     }
   }
 
@@ -54,22 +54,22 @@ export default class Proxy {
   }
 
   // 同步发送
-  private async sendInsSync(instruction: Ins): Promise<Buffer> {
+  private async sendInsSync(ins: Ins): Promise<Buffer> {
     return new Promise((resolve, reject) => {
-      this.latestSendNo = instruction.getSendNo();
-      this._send(instruction);
+      this.latestSendNo = ins.getSendNo();
+      this._send(ins);
       this.resolve = resolve;
       setTimeout(() => {
         reject(false);
-      }, instruction.getTimeout());
+      }, ins.getTimeout());
     });
   }
 
-  private async sendInsSyncWithLog(instruction: Ins): Promise<Buffer> {
+  private async sendInsSyncWithLog(ins: Ins): Promise<Buffer> {
     try {
       console.log(_.repeat("*", 88));
-      const startTime = this._logBeforeSend(instruction);
-      const result = await this.sendInsSync(instruction);
+      const startTime = this._logBeforeSend(ins);
+      const result = await this.sendInsSync(ins);
       let resultArr = Array.from(result);
       const lenLo = resultArr[2];
       const lenHi = resultArr[3];
@@ -85,24 +85,24 @@ export default class Proxy {
     }
   }
 
-  private sendInsWithoutResp(instruction: Ins) {
+  private sendInsWithoutResp(ins: Ins) {
     console.log(_.repeat("*", 88));
-    this._logBeforeSend(instruction);
-    this._send(instruction);
+    this._logBeforeSend(ins);
+    this._send(ins);
     console.log(_.repeat("*", 88));
   }
 
-  private async _send(instruction: Ins) {
-    console.log("发送HEX数据:", chalk.yellow(instruction.toHexString()));
-    console.log("detail:", chalk.cyan(instruction.detail()));
-    this.end.sendData(instruction.toUint8Array());
+  private async _send(ins: Ins) {
+    console.log("发送HEX数据:", chalk.yellow(ins.toHexString()));
+    console.log("detail:", chalk.cyan(ins.detail()));
+    this.end.sendData(ins.toUint8Array());
   }
 
-  private _logBeforeSend(instruction: Ins) {
+  private _logBeforeSend(ins: Ins) {
     const startTime = dayjs();
-    console.log(chalk.bold.bgWhite(instruction.getName()));
+    console.log(chalk.bold.bgWhite(ins.getName()));
     console.log("发送时间:", Tools.formatTimestamp(startTime));
-    console.log(`发送数据: ${chalk.green(instruction.toUint8Array())}`);
+    console.log(`发送数据: ${chalk.green(ins.toUint8Array())}`);
     return startTime;
   }
 
