@@ -3,7 +3,6 @@ export default abstract class Ins {
   public static NAME: string;
   public static MODULE_NUM: number;
   public static NUM: number;
-  public static IS_SYNC: boolean;
   public static TIMEOUT: number;
 
   private header = [0x55, 0xaa]; // 数据头
@@ -71,7 +70,7 @@ export default abstract class Ins {
   }
 
   public isSync(): boolean {
-    return !!(this.constructor as any).IS_SYNC;
+    return false;
   }
 
   public getSendNo(): number {
