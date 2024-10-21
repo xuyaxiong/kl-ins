@@ -3,18 +3,15 @@ export default abstract class Ins {
   public static NAME: string;
   public static MODULE_NUM: number;
   public static NUM: number;
-  public static TIMEOUT: number;
 
   private header = [0x55, 0xaa]; // 数据头
   private footer = [0x0d, 0x0a]; // 校验位
   private _data: number[];
-  protected _sendNo: number; // 发送编号
 
   private isFilled = false; // 数据是否填充
 
   protected constructor() {
     this._data = [];
-    this._sendNo = InsTools.getSendNo();
   }
 
   public toArr(): number[] {
@@ -71,18 +68,6 @@ export default abstract class Ins {
 
   public isSync(): boolean {
     return false;
-  }
-
-  public getSendNo(): number {
-    return this._sendNo;
-  }
-
-  public getSendNoHex(): string {
-    return `${this.getSendNo().toString(16).padStart(2, "0")}`;
-  }
-
-  public getTimeout(): number {
-    return (this.constructor as any).TIMEOUT;
   }
 
   protected abstract getPayload(): number[];

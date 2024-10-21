@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 const chalk = require("chalk");
 const _ = require("lodash");
 import Ins from "../ins/Ins";
+import SyncIns from "../ins/SyncIns";
 import InsTools from "../ins/instools";
 import Tools from "../utils/tools";
 
@@ -27,8 +28,8 @@ export default class Proxy {
   public async sendIns(ins: Ins) {
     ins.fillingData();
     if (ins.isSync()) {
-      if (this.LOG) return await this.sendInsSyncWithLog(ins);
-      else return await this.sendInsSync(ins);
+      if (this.LOG) return await this.sendInsSyncWithLog(ins as SyncIns);
+      else return await this.sendInsSync(ins as SyncIns);
     } else {
       this.sendInsWithoutResp(ins);
     }
@@ -54,7 +55,7 @@ export default class Proxy {
   }
 
   // 同步发送
-  private async sendInsSync(ins: Ins): Promise<Buffer> {
+  private async sendInsSync(ins: SyncIns): Promise<Buffer> {
     return new Promise((resolve, reject) => {
       this.latestSendNo = ins.getSendNo();
       this._send(ins);
@@ -65,7 +66,7 @@ export default class Proxy {
     });
   }
 
-  private async sendInsSyncWithLog(ins: Ins): Promise<Buffer> {
+  private async sendInsSyncWithLog(ins: SyncIns): Promise<Buffer> {
     try {
       console.log(_.repeat("*", 88));
       const startTime = this._logBeforeSend(ins);
