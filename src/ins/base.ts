@@ -33,7 +33,7 @@ export default abstract class Ins {
   }
 
   public toHexString(): string {
-    return InsTools.arrToHexStr(this.toArr());
+    return InsTools.byteArrToHexStr(this.toArr());
   }
 
   private getAdditionLen(): number {
@@ -52,7 +52,7 @@ export default abstract class Ins {
 
   private _fillHead(payloadLen: number) {
     this._data.push(...this.header); // 2字节
-    this._data.push(...InsTools.numToLoHi(this.getAdditionLen() + payloadLen)); // 2字节
+    this._data.push(...InsTools.lenToLoHi(this.getAdditionLen() + payloadLen)); // 2字节
     this._data.push(this.getModuleNum()); // 1字节
     this._data.push(this.getNum()); // 1字节
   }

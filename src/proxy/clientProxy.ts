@@ -2,7 +2,7 @@ import Proxy from "./proxy";
 import { isSync } from "../ins/decorator";
 import TCPClient from "./client";
 
-export class ClientProxy extends Proxy {
+export default class ClientProxy extends Proxy {
   public async connect() {
     await this.end.connect();
   }

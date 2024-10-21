@@ -2,7 +2,7 @@ import Proxy from "./proxy";
 import { isSync } from "../ins/decorator";
 import TCPServer from "./server";
 
-export class ServerProxy extends Proxy {
+export default class ServerProxy extends Proxy {
   public listen() {
     this.end.listen(this.port);
   }

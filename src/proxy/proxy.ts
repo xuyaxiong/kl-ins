@@ -45,7 +45,7 @@ export default class Proxy {
   protected preprocessData(data: Buffer) {
     // console.log('收到原始数据data:', data);
     let dataArr: number[] = Array.from(data);
-    const len = InsTools.loHiToNum(dataArr[2], dataArr[3]);
+    const len = InsTools.loHiToLen(dataArr[2], dataArr[3]);
     dataArr = dataArr.slice(0, len);
     // console.log('截取后数据dataArr:', dataArr);
     const receiveModuleNum = dataArr[4];
@@ -109,7 +109,7 @@ export default class Proxy {
   private _logAfterSend(resultArr: number[], startTime: dayjs.Dayjs) {
     console.log(`接收数据: ${chalk.blue(resultArr.join(","))}`);
     console.log(
-      `接收Hex数据: ${chalk.magentaBright(InsTools.arrToHexStr(resultArr))}`
+      `接收Hex数据: ${chalk.magentaBright(InsTools.byteArrToHexStr(resultArr))}`
     );
     const endTime = dayjs();
     console.log("接收时间:", Tools.formatTimestamp(endTime));

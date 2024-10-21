@@ -183,9 +183,9 @@ export class GetPosIns extends Ins {
       arr.push(...InsTools.float32ToByteArr(item.dest));
     }
     const len = 6 + 1 + mockData.length * (1 + 4 + 4) + 2;
-    return `55 aa ${InsTools.arrToHexStr(
-      InsTools.numToLoHi(len)
-    )} 01 86 ${this.getSendNoHex()} ${InsTools.arrToHexStr(arr)} 0d 0a`;
+    return `55 aa ${InsTools.byteArrToHexStr(
+      InsTools.lenToLoHi(len)
+    )} 01 86 ${this.getSendNoHex()} ${InsTools.byteArrToHexStr(arr)} 0d 0a`;
   }
 
   public static parseRespData(buf: Buffer) {

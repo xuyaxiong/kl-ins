@@ -1,4 +1,4 @@
-import { ClientProxy } from "../proxy/clientProxy";
+import ClientProxy from "../proxy/clientProxy";
 import { MoveIns } from "../ins/axis";
 
 const proxy = new ClientProxy("测试客户端", "127.0.0.1", 7777);

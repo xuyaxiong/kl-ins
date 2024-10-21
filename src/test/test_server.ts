@@ -1,4 +1,4 @@
-import { ServerProxy } from "../proxy/serverProxy";
+import ServerProxy from "../proxy/serverProxy";
 import { HomeIns } from "../ins/axis";
 import Tools from "../utils/tools";
 
