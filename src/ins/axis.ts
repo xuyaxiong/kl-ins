@@ -17,6 +17,21 @@ export class EnumAxisIns extends Ins {
   protected getPayload(): number[] {
     return [this._sendNo];
   }
+
+  public detail(): string {
+    return `${this.getName()}\n\t`;
+  }
+
+  public mockRespData(): string {
+    return `55 aa 0d 00 01 81 ${this.getSendNoHex()} 01 02 03 04 0d 0a`;
+  }
+
+  public static parseRespData(buf: Buffer) {
+    let data = Array.from(buf);
+    data = _.drop(data, 7);
+    data = _.dropRight(data, 2);
+    return data;
+  }
 }
 
 @IsSync({ TIMEOUT: 120_000 })
@@ -42,6 +57,17 @@ export class HomeIns extends Ins {
 
   public detail(): string {
     return `${this.getName()}\n\t轴号列表: ${this.axisList.join(", ")}`;
+  }
+
+  public mockRespData(): string {
+    return `55 aa 0d 00 01 82 ${this.getSendNoHex()} 00 00 00 00 0d 0a`;
+  }
+
+  public static parseRespData(buf: Buffer) {
+    let data = Array.from(buf);
+    data = _.drop(data, 7);
+    data = _.dropRight(data, 2);
+    return data;
   }
 }
 
