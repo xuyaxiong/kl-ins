@@ -80,11 +80,11 @@ new GetPosIns(axisList: number[]);
 1. 同步指令
 
 ```typescript
-import { Ins, IsSync } from "kl-ins";
+import { SyncIns, Timeout } from "kl-ins";
 
-// 同步方法需要使用IsSync注解，并传入超时时长，单位为毫秒
-@IsSync({ TIMEOUT: 2_000 })
-class YourIns extends Ins {
+// 同步方法需要使用Timeout注解，并传入超时时长，单位为毫秒
+@Timeout({ timeout: 2_000 })
+class YourIns extends SyncIns {
   public static readonly NAME = "你的指令名称";
   public static readonly MODULE_NUM = 1; //  模块号
   public static readonly NUM = 1; // 指令号,同一模块指令号需保证唯一
