@@ -1,10 +1,10 @@
 const _ = require("lodash");
 import InsTools from "./instools";
-import Ins from "./base";
+import Ins from "./Ins";
+import { Sync } from "./decorator";
 import { MoveItemInfo } from "./bo";
-import { IsSync } from "./decorator";
 
-@IsSync({ TIMEOUT: 2_000 })
+@Sync({ timeout: 2_000 })
 export class EnumAxisIns extends Ins {
   public static readonly NAME = "枚举有效轴号指令";
   public static readonly MODULE_NUM = 1;
@@ -26,15 +26,12 @@ export class EnumAxisIns extends Ins {
     return `55 aa 0d 00 01 81 ${this.getSendNoHex()} 01 02 03 04 0d 0a`;
   }
 
-  public static parseRespData(buf: Buffer) {
-    let data = Array.from(buf);
-    data = _.drop(data, 7);
-    data = _.dropRight(data, 2);
-    return data;
+  public parseRespData(buf: Buffer): number[] {
+    return InsTools.getPayloadFromResp(buf);
   }
 }
 
-@IsSync({ TIMEOUT: 120_000 })
+@Sync({ timeout: 120_000 })
 export class HomeIns extends Ins {
   public static readonly NAME = "复位回零指令";
   public static readonly MODULE_NUM = 1;
@@ -63,11 +60,8 @@ export class HomeIns extends Ins {
     return `55 aa 0d 00 01 82 ${this.getSendNoHex()} 00 00 00 00 0d 0a`;
   }
 
-  public static parseRespData(buf: Buffer) {
-    let data = Array.from(buf);
-    data = _.drop(data, 7);
-    data = _.dropRight(data, 2);
-    return data;
+  public parseRespData(buf: Buffer) {
+    return InsTools.getPayloadFromResp(buf);
   }
 }
 
@@ -123,7 +117,7 @@ export class JogStopIns extends Ins {
   }
 }
 
-@IsSync({ TIMEOUT: 120_000 })
+@Sync({ timeout: 120_000 })
 export class MoveIns extends Ins {
   public static readonly NAME = "运动指令";
   public static readonly MODULE_NUM = 1;
@@ -162,15 +156,12 @@ export class MoveIns extends Ins {
     return `55 aa 0d 00 01 85 ${this.getSendNoHex()} 00 00 00 00 0d 0a`;
   }
 
-  public static parseRespData(buf: Buffer) {
-    let data = Array.from(buf);
-    data = _.drop(data, 7);
-    data = _.dropRight(data, 2);
-    return data;
+  public parseRespData(buf: Buffer) {
+    return InsTools.getPayloadFromResp(buf);
   }
 }
 
-@IsSync({ TIMEOUT: 10_000 })
+@Sync({ timeout: 10_000 })
 export class GetPosIns extends Ins {
   public static readonly NAME = "获取轴速与位置指令";
   public static readonly MODULE_NUM = 1;
@@ -214,14 +205,8 @@ export class GetPosIns extends Ins {
     )} 01 86 ${this.getSendNoHex()} ${InsTools.byteArrToHexStr(arr)} 0d 0a`;
   }
 
-  public static parseRespData(buf: Buffer) {
-    let data = Array.from(buf);
-    const lenLo = data[2];
-    const lenHi = data[3];
-    const len = lenLo + lenHi * 256;
-    data = data.slice(0, len);
-    data = _.drop(data, 7);
-    data = _.dropRight(data, 2);
+  public parseRespData(buf: Buffer) {
+    const data = InsTools.getPayloadFromResp(buf);
     const chunks = _.chunk(data, 9);
     const res = chunks.map((item: number[]) => {
       const axisNum = item[0];

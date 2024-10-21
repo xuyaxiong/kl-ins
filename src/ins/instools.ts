@@ -65,4 +65,18 @@ export default class InsTools {
   public static hexStringToBuffer(hexStr: string) {
     return Buffer.from(hexStr.replace(/ /g, ""), "hex");
   }
+
+  /**
+   * 从返回数据中提取出payload数组
+   */
+  public static getPayloadFromResp(buf: Buffer) {
+    let data = Array.from(buf);
+    const lenLo = data[2];
+    const lenHi = data[3];
+    const len = InsTools.loHiToLen(lenLo, lenHi);
+    data = data.slice(0, len);
+    data = _.drop(data, 7);
+    data = _.dropRight(data, 2);
+    return data;
+  }
 }

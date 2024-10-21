@@ -13,7 +13,7 @@ test("EnumAxisIns", () => {
   console.log(enumAxisIns.detail());
   console.log(enumAxisIns.toHexString());
   const respData = InsTools.hexStringToBuffer(enumAxisIns.mockRespData());
-  console.log(EnumAxisIns.parseRespData(respData));
+  console.log(enumAxisIns.parseRespData(respData));
 });
 
 test("HomeIns", () => {
@@ -21,7 +21,7 @@ test("HomeIns", () => {
   console.log(homeIns.detail());
   console.log(homeIns.toHexString());
   const respData = InsTools.hexStringToBuffer(homeIns.mockRespData());
-  console.log(HomeIns.parseRespData(respData));
+  console.log(homeIns.parseRespData(respData));
 });
 
 test("MoveIns", () => {
@@ -36,7 +36,7 @@ test("MoveIns", () => {
   console.log(moveIns.detail());
   console.log(moveIns.toHexString());
   const respData = InsTools.hexStringToBuffer(moveIns.mockRespData());
-  console.log(MoveIns.parseRespData(respData));
+  console.log(moveIns.parseRespData(respData));
 });
 
 test("GetPosIns", () => {
@@ -44,7 +44,7 @@ test("GetPosIns", () => {
   console.log(getPosIns.detail());
   console.log(getPosIns.toHexString());
   const respData = InsTools.hexStringToBuffer(getPosIns.mockRespData());
-  console.log(GetPosIns.parseRespData(respData));
+  console.log(getPosIns.parseRespData(respData));
 });
 
 test("JogStartIns", () => {

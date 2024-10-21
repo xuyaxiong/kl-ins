@@ -1,7 +1,7 @@
 const syncInstructionSet = new Set();
-export function IsSync({ TIMEOUT }: { TIMEOUT: number }) {
+export function Sync({ timeout }: { timeout: number }) {
   return function (target: any) {
-    target.TIMEOUT = TIMEOUT;
+    target.TIMEOUT = timeout;
     target.IS_SYNC = true;
     syncInstructionSet.add(`${target.MODULE_NUM}-${target.NUM}`);
   };

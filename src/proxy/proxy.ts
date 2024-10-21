@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 const chalk = require("chalk");
 const _ = require("lodash");
-import Ins from "../ins/base";
+import Ins from "../ins/Ins";
 import InsTools from "../ins/instools";
 import Tools from "../utils/tools";
 

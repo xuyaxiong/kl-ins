@@ -1,4 +1,4 @@
-import ServerProxy from "../proxy/serverProxy";
+import ServerProxy from "../proxy/ServerProxy";
 import { HomeIns } from "../ins/axis";
 import Tools from "../utils/tools";
 
@@ -7,5 +7,8 @@ proxy.listen();
 
 (async () => {
   await Tools.sleep(10_000);
-  proxy.sendIns(new HomeIns([1, 2, 3, 4]));
+  const homeIns = new HomeIns([1, 2, 3, 4]);
+  console.log(homeIns.mockRespData());
+  const retBuf = await proxy.sendIns(homeIns);
+  console.log("解析返回数据:", homeIns.parseRespData(retBuf!));
 })();
