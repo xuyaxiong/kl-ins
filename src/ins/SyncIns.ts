@@ -11,12 +11,12 @@ export default abstract class SyncIns extends Ins {
     this.syncInsClasses.set(key, subclass);
   }
 
-  public static isSyncIns(moduleNum: number, num: number) {
-    return this.syncInsClasses.has(`${moduleNum}-${num}`);
+  public static isSyncIns(modNum: number, insNum: number) {
+    return this.syncInsClasses.has(`${modNum}-${insNum}`);
   }
 
-  public static getSyncInsClass(moduleNum: number, num: number) {
-    return this.syncInsClasses.get(`${moduleNum}-${num}`);
+  public static getSyncInsClass(modNum: number, insNum: number) {
+    return this.syncInsClasses.get(`${modNum}-${insNum}`);
   }
 
   protected _sendNo: number; // 发送编号

@@ -5,17 +5,18 @@ import Ins from "../ins/Ins";
 import SyncIns from "../ins/SyncIns";
 import InsTools from "../ins/instools";
 import Tools from "../utils/tools";
+import { ReportDataHandler } from "./bo";
 
 export default class Proxy {
   protected resolve: Function | undefined = undefined;
   protected latestSendNo = -1;
   protected latestSyncIns: SyncIns | undefined;
-  protected plcReportDataHandler: Function | undefined;
+  protected reportDataHandler: ReportDataHandler | undefined;
   protected LOG = true;
   protected end: any;
 
-  public setPlcReportDataHandler(handler: Function) {
-    this.plcReportDataHandler = handler;
+  public setReportDataHandler(handler: ReportDataHandler) {
+    this.reportDataHandler = handler;
   }
 
   protected getResolve() {
@@ -54,9 +55,9 @@ export default class Proxy {
     const len = InsTools.loHiToLen(dataArr[2], dataArr[3]);
     dataArr = dataArr.slice(0, len);
     // console.log('截取后数据dataArr:', dataArr);
-    const receiveModuleNum = dataArr[4];
-    const receiveNum = dataArr[5] - 0x80;
-    return { strippedData: dataArr, receiveModuleNum, receiveNum };
+    const modNum = dataArr[4];
+    const insNum = dataArr[5] - 0x80;
+    return { insData: dataArr, modNum, insNum };
   }
 
   // 同步发送

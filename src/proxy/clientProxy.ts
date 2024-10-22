@@ -10,22 +10,21 @@ export default class ClientProxy extends Proxy {
   public constructor(name: string, host: string, port: number) {
     super();
     this.end = new TCPClient(name, { host, port }, async (data: Buffer) => {
-      const { strippedData, receiveModuleNum, receiveNum } =
-        this.preprocessData(data);
-      if (SyncIns.isSyncIns(receiveModuleNum, receiveNum)) {
-        const receiveSendNo = strippedData[6];
+      const { insData, modNum, insNum } = this.preprocessData(data);
+      if (SyncIns.isSyncIns(modNum, insNum)) {
+        const receiveSendNo = insData[6];
         if (this.getLatestSendNo() === receiveSendNo) {
           const resolve = this.getResolve();
           const latestSyncIns = this.getLatestSyncIns();
-          const parsedData = latestSyncIns!.parseRespData(strippedData);
+          const parsedData = latestSyncIns!.parseRespData(insData);
           resolve?.(parsedData);
         }
       } else {
-        if (this.plcReportDataHandler)
-          await this.plcReportDataHandler({
-            moduleNum: receiveModuleNum,
-            instructionNum: receiveNum,
-            data: strippedData,
+        if (this.reportDataHandler)
+          await this.reportDataHandler({
+            modNum,
+            insNum,
+            data: insData,
           });
       }
     });

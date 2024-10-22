@@ -9,10 +9,10 @@ npm install kl-ins
 ### 二、用法
 
 ```typescript
-import { ClientProxy, MoveIns } from "kl-ins";
+import { ClientProxy, MoveIns, ReportData } from "kl-ins";
 
 const proxy = new ClientProxy("测试客户端", "127.0.0.1", 7777);
-proxy.setPlcReportDataHandler(({ moduleNum, instructionNum, data }) => {
+proxy.setReportDataHandler(async ({ modNum, insNum, data }: ReportData) => {
   // 处理主动上报数据
 });
 (async () => {
