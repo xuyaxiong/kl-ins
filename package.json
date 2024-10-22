@@ -28,5 +28,17 @@
     "consola": "^3.2.3",
     "dayjs": "^1.11.11",
     "lodash": "^4.17.21"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xuyaxiong/kl-ins.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xuyaxiong/kl-ins/issues"
+  },
+  "homepage": "https://github.com/xuyaxiong/kl-ins#readme",
+  "keywords": [
+    "考拉悠然",
+    "通信指令"
+  ],
 }
