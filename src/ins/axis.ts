@@ -5,7 +5,7 @@ import SyncIns from "./SyncIns";
 import { Timeout } from "./decorator";
 import { MoveItemInfo } from "./bo";
 
-@Timeout({ timeout: 2_000 })
+@Timeout(2_000)
 export class EnumAxisIns extends SyncIns {
   public static readonly NAME = "枚举有效轴号指令";
   public static readonly MODULE_NUM = 1;
@@ -32,7 +32,7 @@ export class EnumAxisIns extends SyncIns {
   }
 }
 
-@Timeout({ timeout: 120_000 })
+@Timeout(120_000)
 export class HomeIns extends SyncIns {
   public static readonly NAME = "复位回零指令";
   public static readonly MODULE_NUM = 1;
@@ -118,7 +118,7 @@ export class JogStopIns extends Ins {
   }
 }
 
-@Timeout({ timeout: 120_000 })
+@Timeout(120_000)
 export class MoveIns extends SyncIns {
   public static readonly NAME = "运动指令";
   public static readonly MODULE_NUM = 1;
@@ -162,7 +162,7 @@ export class MoveIns extends SyncIns {
   }
 }
 
-@Timeout({ timeout: 10_000 })
+@Timeout(10_000)
 export class GetPosIns extends SyncIns {
   public static readonly NAME = "获取轴速与位置指令";
   public static readonly MODULE_NUM = 1;

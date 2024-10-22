@@ -1,4 +1,4 @@
-export function Timeout({ timeout }: { timeout: number }) {
+export function Timeout(timeout: number) {
   return function (target: any) {
     target.TIMEOUT = timeout;
   };

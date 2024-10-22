@@ -88,7 +88,7 @@ new GetPosIns(axisList: number[]);
 import { SyncIns, Timeout } from "kl-ins";
 
 // 同步方法需要使用Timeout注解，并传入超时时长，单位为毫秒
-@Timeout({ timeout: 2_000 })
+@Timeout(2_000)
 class YourIns extends SyncIns {
   public static readonly NAME = "你的指令名称";
   public static readonly MODULE_NUM = 1; //  模块号
