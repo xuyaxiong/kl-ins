@@ -91,8 +91,8 @@ import { SyncIns, Timeout } from "kl-ins";
 @Timeout(2_000)
 class YourIns extends SyncIns {
   public static readonly NAME = "你的指令名称";
-  public static readonly MODULE_NUM = 1; //  模块号
-  public static readonly NUM = 1; // 指令号,同一模块指令号需保证唯一
+  public static readonly MOD_NUM = 1; //  模块号
+  public static readonly INS_NUM = 1; // 指令号,同一模块指令号需保证唯一
 
   protected getPayload(): number[] {
     // 你需要实现这个方法，返回payload数组
@@ -111,8 +111,8 @@ import { Ins } from "kl-ins";
 
 class YourIns extends Ins {
   public static readonly NAME = "你的指令名称";
-  public static readonly MODULE_NUM = 1; //  模块号
-  public static readonly NUM = 1; // 指令号,同一模块指令号需保证唯一
+  public static readonly MOD_NUM = 1; //  模块号
+  public static readonly INS_NUM = 1; // 指令号,同一模块指令号需保证唯一
 
   protected getPayload(): number[] {
     // 你需要实现这个方法，返回payload数组

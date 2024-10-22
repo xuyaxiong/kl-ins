@@ -7,7 +7,7 @@ export default abstract class SyncIns extends Ins {
 
   private static registerSyncIns(subclass: any) {
     const constructor = subclass.constructor;
-    const key = `${constructor.MODULE_NUM}-${constructor.NUM}`;
+    const key = `${constructor.MOD_NUM}-${constructor.INS_NUM}`;
     this.syncInsClasses.set(key, subclass);
   }
 

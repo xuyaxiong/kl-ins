@@ -8,6 +8,7 @@
     "dist"
   ],
   "scripts": {
+    "prebuild": "npm test",
     "build": "tsup",
     "test": "jest",
     "test-client": "ts-node ./src/test/test_client.ts",

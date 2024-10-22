@@ -1,8 +1,8 @@
 import InsTools from "./instools";
 export default abstract class Ins {
   public static NAME: string;
-  public static MODULE_NUM: number;
-  public static NUM: number;
+  public static MOD_NUM: number;
+  public static INS_NUM: number;
 
   private header = [0x55, 0xaa]; // 数据头
   private footer = [0x0d, 0x0a]; // 校验位
@@ -60,10 +60,10 @@ export default abstract class Ins {
     return (this.constructor as any).NAME;
   }
   public getModuleNum() {
-    return (this.constructor as any).MODULE_NUM;
+    return (this.constructor as any).MOD_NUM;
   }
   public getNum() {
-    return (this.constructor as any).NUM;
+    return (this.constructor as any).INS_NUM;
   }
 
   public isSync(): boolean {

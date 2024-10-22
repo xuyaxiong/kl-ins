@@ -8,8 +8,8 @@ import { MoveItemInfo } from "./bo";
 @Timeout(2_000)
 export class EnumAxisIns extends SyncIns {
   public static readonly NAME = "枚举有效轴号指令";
-  public static readonly MODULE_NUM = 1;
-  public static readonly NUM = 1;
+  public static readonly MOD_NUM = 1;
+  public static readonly INS_NUM = 1;
 
   public constructor() {
     super();
@@ -35,8 +35,8 @@ export class EnumAxisIns extends SyncIns {
 @Timeout(120_000)
 export class HomeIns extends SyncIns {
   public static readonly NAME = "复位回零指令";
-  public static readonly MODULE_NUM = 1;
-  public static readonly NUM = 2;
+  public static readonly MOD_NUM = 1;
+  public static readonly INS_NUM = 2;
 
   private axisList: number[];
 
@@ -68,8 +68,8 @@ export class HomeIns extends SyncIns {
 
 export class JogStartIns extends Ins {
   public static readonly NAME = "手动示教移动开始指令";
-  public static readonly MODULE_NUM = 1;
-  public static readonly NUM = 3;
+  public static readonly MOD_NUM = 1;
+  public static readonly INS_NUM = 3;
 
   private axisNum: number;
   private speed: number;
@@ -99,8 +99,8 @@ export class JogStartIns extends Ins {
 
 export class JogStopIns extends Ins {
   public static readonly NAME = "手动示教移动停止指令";
-  public static readonly MODULE_NUM = 1;
-  public static readonly NUM = 4;
+  public static readonly MOD_NUM = 1;
+  public static readonly INS_NUM = 4;
 
   private axisNum: number;
 
@@ -121,8 +121,8 @@ export class JogStopIns extends Ins {
 @Timeout(120_000)
 export class MoveIns extends SyncIns {
   public static readonly NAME = "运动指令";
-  public static readonly MODULE_NUM = 1;
-  public static readonly NUM = 5;
+  public static readonly MOD_NUM = 1;
+  public static readonly INS_NUM = 5;
 
   private moveItemInfoList: MoveItemInfo[];
 
@@ -165,8 +165,8 @@ export class MoveIns extends SyncIns {
 @Timeout(10_000)
 export class GetPosIns extends SyncIns {
   public static readonly NAME = "获取轴速与位置指令";
-  public static readonly MODULE_NUM = 1;
-  public static readonly NUM = 6;
+  public static readonly MOD_NUM = 1;
+  public static readonly INS_NUM = 6;
 
   private axisList: number[];
 
