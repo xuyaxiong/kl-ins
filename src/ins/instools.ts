@@ -69,8 +69,8 @@ export default class InsTools {
   /**
    * 从返回数据中提取出payload数组
    */
-  public static getPayloadFromResp(buf: Buffer) {
-    let data = Array.from(buf);
+  public static getPayloadFromResp(data: number[] | Buffer) {
+    if (data instanceof Buffer) data = Array.from(data);
     const lenLo = data[2];
     const lenHi = data[3];
     const len = InsTools.loHiToLen(lenLo, lenHi);

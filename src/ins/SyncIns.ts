@@ -5,14 +5,18 @@ export default abstract class SyncIns extends Ins {
   public static TIMEOUT: number;
   static syncInsClasses = new Map();
 
-  static registerSyncIns(subclass: any) {
+  private static registerSyncIns(subclass: any) {
     const constructor = subclass.constructor;
     const key = `${constructor.MODULE_NUM}-${constructor.NUM}`;
     this.syncInsClasses.set(key, subclass);
   }
 
-  static isSyncIns(moduleNum: number, num: number) {
+  public static isSyncIns(moduleNum: number, num: number) {
     return this.syncInsClasses.has(`${moduleNum}-${num}`);
+  }
+
+  public static getSyncInsClass(moduleNum: number, num: number) {
+    return this.syncInsClasses.get(`${moduleNum}-${num}`);
   }
 
   protected _sendNo: number; // 发送编号
@@ -38,4 +42,6 @@ export default abstract class SyncIns extends Ins {
   public getSendNoHex(): string {
     return `${this.getSendNo().toString(16).padStart(2, "0")}`;
   }
+
+  public abstract parseRespData(data: number[] | Buffer): any;
 }

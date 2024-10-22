@@ -27,8 +27,8 @@ export class EnumAxisIns extends SyncIns {
     return `55 aa 0d 00 01 81 ${this.getSendNoHex()} 01 02 03 04 0d 0a`;
   }
 
-  public parseRespData(buf: Buffer): number[] {
-    return InsTools.getPayloadFromResp(buf);
+  public parseRespData(data: number[] | Buffer): any {
+    return InsTools.getPayloadFromResp(data);
   }
 }
 
@@ -61,8 +61,8 @@ export class HomeIns extends SyncIns {
     return `55 aa 0d 00 01 82 ${this.getSendNoHex()} 00 00 00 00 0d 0a`;
   }
 
-  public parseRespData(buf: Buffer) {
-    return InsTools.getPayloadFromResp(buf);
+  public parseRespData(data: number[] | Buffer) {
+    return InsTools.getPayloadFromResp(data);
   }
 }
 
@@ -157,8 +157,8 @@ export class MoveIns extends SyncIns {
     return `55 aa 0d 00 01 85 ${this.getSendNoHex()} 00 00 00 00 0d 0a`;
   }
 
-  public parseRespData(buf: Buffer) {
-    return InsTools.getPayloadFromResp(buf);
+  public parseRespData(data: number[] | Buffer) {
+    return InsTools.getPayloadFromResp(data);
   }
 }
 
@@ -206,8 +206,8 @@ export class GetPosIns extends SyncIns {
     )} 01 86 ${this.getSendNoHex()} ${InsTools.byteArrToHexStr(arr)} 0d 0a`;
   }
 
-  public parseRespData(buf: Buffer) {
-    const data = InsTools.getPayloadFromResp(buf);
+  public parseRespData(data: number[] | Buffer) {
+    data = InsTools.getPayloadFromResp(data);
     const chunks = _.chunk(data, 9);
     const res = chunks.map((item: number[]) => {
       const axisNum = item[0];

@@ -8,7 +8,7 @@ proxy.listen();
 (async () => {
   await Tools.sleep(10_000);
   const homeIns = new HomeIns([1, 2, 3, 4]);
-  console.log(homeIns.mockRespData());
-  const retBuf = await proxy.sendIns(homeIns);
-  console.log("解析返回数据:", homeIns.parseRespData(retBuf!));
+  console.log("mock返回数据:", homeIns.mockRespData());
+  const res = await proxy.sendIns(homeIns);
+  console.log("解析返回数据:", res);
 })();

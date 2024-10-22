@@ -9,6 +9,7 @@ import Tools from "../utils/tools";
 export default class Proxy {
   protected resolve: Function | undefined = undefined;
   protected latestSendNo = -1;
+  protected latestSyncIns: SyncIns | undefined;
   protected plcReportDataHandler: Function | undefined;
   protected LOG = true;
   protected end: any;
@@ -23,6 +24,10 @@ export default class Proxy {
 
   protected getLatestSendNo() {
     return this.latestSendNo;
+  }
+
+  protected getLatestSyncIns() {
+    return this.latestSyncIns;
   }
 
   public async sendIns(ins: Ins) {
@@ -59,6 +64,7 @@ export default class Proxy {
     return new Promise((resolve, reject) => {
       this.latestSendNo = ins.getSendNo();
       this._send(ins);
+      this.latestSyncIns = ins;
       this.resolve = resolve;
       setTimeout(() => {
         reject(false);

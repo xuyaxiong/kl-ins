@@ -16,7 +16,9 @@ export default class ClientProxy extends Proxy {
         const receiveSendNo = strippedData[6];
         if (this.getLatestSendNo() === receiveSendNo) {
           const resolve = this.getResolve();
-          resolve?.(data);
+          const latestSyncIns = this.getLatestSyncIns();
+          const parsedData = latestSyncIns!.parseRespData(strippedData);
+          resolve?.(parsedData);
         }
       } else {
         if (this.plcReportDataHandler)

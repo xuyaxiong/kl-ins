@@ -1,32 +1,37 @@
 # kl-ins
 
-### 安装
+### 一、安装
 
 ```bash
 npm install kl-ins
 ```
 
-### 用法
+### 二、用法
 
 ```typescript
-const proxy = new ClientProxy("PLC", "127.0.0.1", 3000);
-await proxy.connect();
+import { ClientProxy, MoveIns } from "kl-ins";
 
-// 发送同步指令
-const ins = new HomeIns([1, 2, 3, 4]);
-await proxy.sendIns(ins);
-
-// 设置监听函数
-proxy.setPlcReportDataHandler(({
-    moduleNum: number,
-    instructionNum: number,
-    data: number[]
-}) => {
-    // 处理数据
+const proxy = new ClientProxy("测试客户端", "127.0.0.1", 7777);
+proxy.setPlcReportDataHandler(({ moduleNum, instructionNum, data }) => {
+  // 处理主动上报数据
 });
+(async () => {
+  await proxy.connect();
+  const moveIns = new MoveIns([
+    {
+      axisNum: 1,
+      speed: 99.99,
+      dest: 100.01,
+      isRelative: true,
+    },
+  ]);
+  console.log("mock返回数据:", moveIns.mockRespData());
+  const res = await proxy.sendIns(moveIns);
+  console.log("解析返回数据:", res);
+})();
 ```
 
-### 指令集
+### 三、指令集
 
 1. 轴控制
 
@@ -75,7 +80,7 @@ new GetPosIns(axisList: number[]);
 
 3. 周期性包
 
-### 自定义指令
+### 四、自定义指令
 
 1. 同步指令
 
@@ -91,7 +96,10 @@ class YourIns extends SyncIns {
 
   protected getPayload(): number[] {
     // 你需要实现这个方法，返回payload数组
-    return [];
+  }
+
+  public parseRespData(data: number[] | Buffer): any {
+    // 你需要实现这个方法，返回解析后的结果
   }
 }
 ```
@@ -109,6 +117,20 @@ class YourIns extends Ins {
   protected getPayload(): number[] {
     // 你需要实现这个方法，返回payload数组
     return [];
+  }
+}
+```
+
+### 五、备注
+
+1. 本工具包使用了装饰器特性，需要在`tsconfig.json`中打开**装饰器**设置，设置如下：
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   }
 }
 ```

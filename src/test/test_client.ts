@@ -13,6 +13,6 @@ const proxy = new ClientProxy("测试客户端", "127.0.0.1", 7777);
     },
   ]);
   console.log("mock返回数据:", moveIns.mockRespData());
-  const retBuf = await proxy.sendIns(moveIns);
-  console.log("解析返回数据:", moveIns.parseRespData(retBuf!));
+  const res = await proxy.sendIns(moveIns);
+  console.log("解析返回数据:", res);
 })();
