@@ -61,7 +61,7 @@ export default class Proxy {
   }
 
   // 同步发送
-  private async sendInsSync(ins: SyncIns): Promise<Buffer> {
+  private async sendInsSync(ins: SyncIns): Promise<Array<number>> {
     return new Promise((resolve, reject) => {
       this.latestSendNo = ins.getSendNo();
       this._send(ins);
@@ -73,18 +73,14 @@ export default class Proxy {
     });
   }
 
-  private async sendInsSyncWithLog(ins: SyncIns): Promise<Buffer> {
+  private async sendInsSyncWithLog(ins: SyncIns): Promise<Array<number>> {
     try {
       console.log(_.repeat("*", 88));
       const startTime = this._logBeforeSend(ins);
       const result = await this.sendInsSync(ins);
-      let resultArr = Array.from(result);
-      const lenLo = resultArr[2];
-      const lenHi = resultArr[3];
-      const len = lenLo + lenHi * 256;
-      resultArr = resultArr.slice(0, len);
-      this._logAfterSend(resultArr, startTime);
-      return result;
+      const parsedRes = ins.parseRespData(result);
+      this._logAfterSend(result, startTime);
+      return parsedRes;
     } catch (error) {
       console.log(chalk.bold.bgRed("指令超时"));
       throw new Error("指令超时");

@@ -15,9 +15,7 @@ export default class ServerProxy extends Proxy {
         const receiveSendNo = insData[6];
         if (this.getLatestSendNo() === receiveSendNo) {
           const resolve = this.getResolve();
-          const latestSyncIns = this.getLatestSyncIns();
-          const parsedData = latestSyncIns!.parseRespData(insData);
-          resolve?.(parsedData);
+          resolve?.(insData);
         }
       } else {
         if (this.reportDataHandler)
