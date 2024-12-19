@@ -5,7 +5,7 @@ import Ins from "../ins/Ins";
 import SyncIns from "../ins/SyncIns";
 import InsTools from "../ins/instools";
 import Tools from "../utils/tools";
-import { ReportDataHandler } from "./bo";
+import { OnFailed, OnSuccess, ReportDataHandler } from "./bo";
 
 export default class Proxy {
   protected resolve: Function | undefined = undefined;
@@ -118,5 +118,13 @@ export default class Proxy {
     const endTime = dayjs();
     console.log("接收时间:", Tools.formatTimestamp(endTime));
     console.log(`消耗时间: ${chalk.red(endTime.diff(startTime) + "ms")}`);
+  }
+
+  public setOnSuccess(onSuccess: OnSuccess) {
+    this.end.setOnSuccess(onSuccess);
+  }
+
+  public setOnFailed(onFailed: OnFailed) {
+    this.end.setOnFailed(onFailed);
   }
 }

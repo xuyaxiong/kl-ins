@@ -1,10 +1,12 @@
 import { Socket } from "net";
 import Tools from "../utils/tools";
-import { TCPConfig } from "./bo";
+import { OnFailed, OnSuccess, TCPConfig } from "./bo";
 
 export default class TCPClient {
   private client: Socket;
   private reconnectTimeout: NodeJS.Timeout | undefined = undefined;
+  private onSuccess?: OnSuccess;
+  private onFailed?: OnFailed;
 
   constructor(
     private name: string,
@@ -19,6 +21,7 @@ export default class TCPClient {
     return new Promise((resolve) => {
       this.client.connect(port, host, () => {
         Tools.logKVSuccess(`${this.name}状态`, "连接成功");
+        this.onSuccess && this.onSuccess();
 
         this.client.on("data", (data) => {
           this.dataHandler && this.dataHandler(data);
@@ -34,9 +37,18 @@ export default class TCPClient {
 
       this.client.on("error", async (err) => {
         Tools.logKVFail(`${this.name}状态`, "连接失败");
+        this.onFailed && this.onFailed();
         await this.reconnect();
       });
     });
+  }
+
+  public setOnSuccess(onSuccess: OnSuccess) {
+    this.onSuccess = onSuccess;
+  }
+
+  public setOnFailed(onFailed: OnFailed) {
+    this.onFailed = onFailed;
   }
 
   // 发送数据

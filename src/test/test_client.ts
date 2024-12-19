@@ -2,6 +2,15 @@ import ClientProxy from "../proxy/ClientProxy";
 import { MoveIns } from "../ins/axis";
 
 const proxy = new ClientProxy("测试客户端", "127.0.0.1", 7777);
+
+proxy.setOnSuccess(() => {
+  console.log("foo");
+});
+
+proxy.setOnFailed(() => {
+  console.log("bar");
+});
+
 (async () => {
   await proxy.connect();
   const moveIns = new MoveIns([

@@ -12,3 +12,11 @@ export interface ReportData {
 export interface ReportDataHandler {
   (data: ReportData): Promise<void>;
 }
+
+export interface OnSuccess {
+  (): void;
+}
+
+export interface OnFailed {
+  (): void;
+}
