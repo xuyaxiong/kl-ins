@@ -90,10 +90,14 @@ export default class Proxy {
   }
 
   private sendInsWithoutResp(ins: Ins) {
-    console.log(_.repeat("*", 88));
-    this._logBeforeSend(ins);
+    if (this.LOG) {
+      console.log(_.repeat("*", 88));
+      this._logBeforeSend(ins);
+    }
     this._send(ins);
-    console.log(_.repeat("*", 88));
+    if (this.LOG) {
+      console.log(_.repeat("*", 88));
+    }
   }
 
   private async _send(ins: Ins) {
