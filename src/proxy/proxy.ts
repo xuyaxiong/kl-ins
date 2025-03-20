@@ -101,8 +101,10 @@ export default class Proxy {
   }
 
   private async _send(ins: Ins) {
-    console.log("发送HEX数据:", chalk.yellow(ins.toHexString()));
-    console.log("detail:", chalk.cyan(ins.detail()));
+    if (this.LOG) {
+      console.log("发送HEX数据:", chalk.yellow(ins.toHexString()));
+      console.log("detail:", chalk.cyan(ins.detail()));
+    }
     this.end.sendData(ins.toUint8Array());
   }
 
