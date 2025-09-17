@@ -5,11 +5,11 @@ const _ = require("lodash");
 
 export default class Tools {
   static formatTime(time: dayjs.Dayjs) {
-    return time.format("YYYY-MM-DD h:mm:ss");
+    return time.format("YYYY-MM-DD HH:mm:ss");
   }
 
   static formatTimestamp(time: dayjs.Dayjs) {
-    return time.format("YYYY-MM-DD h:mm:ss.SSS");
+    return time.format("YYYY-MM-DD HH:mm:ss.SSS");
   }
 
   static formatNowTime() {
