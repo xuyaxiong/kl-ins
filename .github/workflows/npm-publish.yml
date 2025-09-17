@@ -2,8 +2,7 @@ name: Publish npm package
 
 on:
   push:
-    tags:
-      - '*.*.*' # 监听版本标签的推送，形如 1.0.0
+    branches: [main]
 
 jobs:
   publish:
